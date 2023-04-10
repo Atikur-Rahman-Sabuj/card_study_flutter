@@ -1,41 +1,45 @@
+import 'package:card_study_flutter/db/dbCard.dart';
 import 'package:card_study_flutter/db/dbTopic.dart';
+import 'package:card_study_flutter/models/studyCard.dart';
 import 'package:card_study_flutter/models/topic.dart';
 import 'package:flutter/material.dart';
 
-class TopicInputWidget extends StatefulWidget {
-  Topic? topic;
-  TopicInputWidget({super.key, this.topic});
+class CardInputWidget extends StatefulWidget {
+  StudyCard? card;
+  CardInputWidget({super.key, this.card});
 
   @override
-  _TopicInputWidgetState createState() => _TopicInputWidgetState();
+  _CardInputWidgetState createState() => _CardInputWidgetState();
 }
 
-class _TopicInputWidgetState extends State<TopicInputWidget> {
+class _CardInputWidgetState extends State<CardInputWidget> {
   final _formKey = GlobalKey<FormState>();
-  late final int? _id = widget.topic?.id;
-  late final int? _parentId = widget.topic?.parentId;
-  late String _title = widget.topic?.title ?? "";
-  late String _description = widget.topic?.description ?? '';
-  late bool _isFavorite = widget.topic?.favorite ?? false;
-  late int _priority = widget.topic?.priority ?? 1;
+  late final int? _id = widget.card?.id;
+  late final int? _topicId = widget.card?.topicId;
+  late String _frontTitle = widget.card?.frontTitle ?? "";
+  late String _backTitle = widget.card?.backTitle ?? "";
+  late String _frontDescription = widget.card?.frontDescription ?? '';
+  late String _backDescription = widget.card?.backDescription ?? '';
+  late bool _isFavorite = widget.card?.favorite ?? false;
+  late int _priority = widget.card?.priority ?? 1;
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Do something with the topic data
-      Topic topic = Topic(
+      StudyCard card = StudyCard(
           id: _id,
-          parentId: _parentId,
-          title: _title,
-          description: _description,
+          topicId: _topicId,
+          frontTitle: _frontTitle,
+          backTitle: _backTitle,
+          frontDescription: _frontDescription,
+          backDescription: _backDescription,
           favorite: _isFavorite,
           priority: _priority);
-      if (topic.id == null) {
-        DBTopic.insert(topic);
+      if (card.id == null) {
+        DBCard.insert(card);
       } else {
-        DBTopic.update(topic);
+        DBCard.update(card);
       }
-
       Navigator.pop(context, true);
     }
   }
@@ -44,7 +48,7 @@ class _TopicInputWidgetState extends State<TopicInputWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Topic'),
+        title: Text('Add Card'),
       ),
       body: Form(
         key: _formKey,
@@ -55,28 +59,57 @@ class _TopicInputWidgetState extends State<TopicInputWidget> {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Front Title',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
+                    return 'Please enter front title';
                   }
                   return null;
                 },
-                initialValue: _title,
+                initialValue: _frontTitle,
                 onSaved: (value) {
-                  _title = value!;
+                  _frontTitle = value!;
                 },
               ),
               SizedBox(height: 16.0),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Description',
+                  labelText: 'Front Description',
                 ),
                 maxLines: 3,
-                initialValue: _description,
+                minLines: 1,
+                initialValue: _frontDescription,
                 onSaved: (value) {
-                  _description = value!;
+                  _frontDescription = value!;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Back Title',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter back title';
+                  }
+                  return null;
+                },
+                initialValue: _backTitle,
+                onSaved: (value) {
+                  _backTitle = value!;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Back Description',
+                ),
+                maxLines: 3,
+                minLines: 1,
+                initialValue: _backDescription,
+                onSaved: (value) {
+                  _backDescription = value!;
                 },
               ),
               SizedBox(height: 16.0),

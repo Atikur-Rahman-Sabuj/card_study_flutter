@@ -1,34 +1,36 @@
+import 'package:card_study_flutter/db/dbCard.dart';
 import 'package:card_study_flutter/db/dbTopic.dart';
+import 'package:card_study_flutter/models/studyCard.dart';
 import 'package:card_study_flutter/models/topic.dart';
-import 'package:card_study_flutter/routes/cardListRoute.dart';
+import 'package:card_study_flutter/routes/cardInputRoute.dart';
 import 'package:card_study_flutter/routes/topicInputRoute.dart';
 import 'package:card_study_flutter/routes/topicListRoute.dart';
 import 'package:flutter/material.dart';
 
-class TopicListWidget extends StatefulWidget {
-  final int? parentId;
-  TopicListWidget({super.key, this.parentId});
+class CardListWidget extends StatefulWidget {
+  final int topicId;
+  CardListWidget({super.key, required this.topicId});
 
   @override
-  State<TopicListWidget> createState() => _TopicListWidgetState();
+  State<CardListWidget> createState() => _CardListWidgetState();
 }
 
-class _TopicListWidgetState extends State<TopicListWidget> {
-  Future<List<Topic>>? _topics;
+class _CardListWidgetState extends State<CardListWidget> {
+  Future<List<StudyCard>>? _cards;
 
   @override
   void initState() {
     super.initState();
-    _topics = _getTopics();
+    _cards = _getCards();
   }
 
-  Future<List<Topic>> _getTopics() async {
-    return DBTopic.getByParentId(widget.parentId);
+  Future<List<StudyCard>> _getCards() async {
+    return DBCard.getByTopicId(widget.topicId);
   }
 
-  void _refreshTopics() {
+  void _refreshCards() {
     setState(() {
-      _topics = _getTopics();
+      _cards = _getCards();
     });
   }
 
@@ -36,27 +38,29 @@ class _TopicListWidgetState extends State<TopicListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Topics'),
+        title: const Text('Cards'),
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () async {
           final result =
-              await Navigator.pushNamed(context, TopicInputRoute.routeName,
-                  arguments: Topic(
-                    parentId: widget.parentId,
-                    title: "",
-                    description: "",
+              await Navigator.pushNamed(context, CardInputRoute.routeName,
+                  arguments: StudyCard(
+                    topicId: widget.topicId,
+                    frontTitle: "",
+                    frontDescription: "",
+                    backTitle: "",
+                    backDescription: "",
                     favorite: false,
                     priority: 1,
                   ));
           if (result != null) {
-            _refreshTopics();
+            _refreshCards();
           }
         },
         child: const Icon(Icons.add),
       ),
-      body: FutureBuilder<List<Topic>>(
-        future: _topics,
+      body: FutureBuilder<List<StudyCard>>(
+        future: _cards,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -64,41 +68,32 @@ class _TopicListWidgetState extends State<TopicListWidget> {
             );
           }
 
-          final topics = snapshot.data!;
+          final cards = snapshot.data!;
 
           return ListView.builder(
-            itemCount: topics.length,
+            itemCount: cards.length,
             itemBuilder: (context, index) {
-              final topic = topics[index];
+              final card = cards[index];
               return ListTile(
-                onTap: () {
-                  if (widget.parentId == null) {
-                    Navigator.pushNamed(context, TopicListRoute.routeName,
-                        arguments: topic.id);
-                  } else {
-                    Navigator.pushNamed(context, CardListRoute.routeName,
-                        arguments: topic.id);
-                  }
-                },
-                title: Text(topic.title),
-                subtitle: Text(topic.description),
+                title: Text(card.frontTitle),
+                subtitle: Text(card.frontDescription),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ElevatedButton.icon(
                         onPressed: () {
-                          DBTopic.delete(topic);
-                          _refreshTopics();
+                          DBCard.delete(card);
+                          _refreshCards();
                         },
                         icon: const Icon(Icons.delete),
                         label: const Text("")),
                     ElevatedButton.icon(
                         onPressed: () async {
                           final result = await Navigator.pushNamed(
-                              context, TopicInputRoute.routeName,
-                              arguments: topic);
+                              context, CardInputRoute.routeName,
+                              arguments: card);
                           if (result != null) {
-                            _refreshTopics();
+                            _refreshCards();
                           }
                         },
                         icon: const Icon(Icons.edit),
@@ -106,7 +101,7 @@ class _TopicListWidgetState extends State<TopicListWidget> {
                   ],
                 ), //topic.favorite ? Icon(Icons.star) : null,
                 leading: CircleAvatar(
-                  child: Text(topic.priority.toString()),
+                  child: Text(card.priority.toString()),
                 ),
               );
             },

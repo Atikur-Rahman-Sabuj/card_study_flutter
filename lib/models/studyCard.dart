@@ -28,7 +28,7 @@ class StudyCard {
     backTitle = json['backTitle'];
     frontDescription = json['frontDescription'];
     backDescription = json['backDescription'];
-    favorite = json['favorite'];
+    favorite = json['favorite'] == 1;
     priority = json['priority'];
     createdAt = json['createdAt'];
   }

@@ -9,8 +9,10 @@ class DBTopic {
   static const String tableName = "topics";
   static const String createTable =
       "CREATE TABLE $tableName( id INTEGER PRIMARY KEY AUTOINCREMENT, parentId INTEGER, title TEXT, description TEXT, favorite BOOLEAN, priority INTEGER, createdAt TEXT)";
+
   static Future<int> insert(Topic topic) async {
     Database db = await DBUtils.instance.db;
+    topic.createdAt = DateTime.now().toString();
     return await db.insert(tableName, topic.toJson());
   }
 
@@ -36,7 +38,8 @@ class DBTopic {
     return null;
   }
 
-  static Future<List<Topic>> getByParentId(int id) async {
+  static Future<List<Topic>> getByParentId(int? id) async {
+    if (id == null) return getAllMainTopics();
     Database db = await DBUtils.instance.db;
     List<Map<String, dynamic>> result =
         await db.query(tableName, where: 'parentId = ?', whereArgs: [id]);
@@ -45,8 +48,9 @@ class DBTopic {
 
   static Future<int> update(Topic topic) async {
     Database db = await DBUtils.instance.db;
-    return await db.update(tableName, topic.toJson(),
+    int result = await db.update(tableName, topic.toJson(),
         where: 'id = ?', whereArgs: [topic.id]);
+    return result;
   }
 
   static Future<int> delete(Topic topic) async {

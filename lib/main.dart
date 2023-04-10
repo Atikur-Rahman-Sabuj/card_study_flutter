@@ -1,5 +1,7 @@
 import 'package:card_study_flutter/db/dbUtils.dart';
-import 'package:card_study_flutter/routes/homeRoute.dart';
+import 'package:card_study_flutter/routes/cardInputRoute.dart';
+import 'package:card_study_flutter/routes/cardListRoute.dart';
+import 'package:card_study_flutter/routes/topicListRoute.dart';
 import 'package:card_study_flutter/routes/topicInputRoute.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +28,12 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        home: const HomeRoute(),
+        home: const TopicListRoute(),
         routes: <String, WidgetBuilder>{
-          HomeRoute.routeName: (context) => const HomeRoute(),
-          TopicInputRoute.routeName: (context) => const TopicInputRoute()
+          TopicListRoute.routeName: (context) => const TopicListRoute(),
+          TopicInputRoute.routeName: (context) => const TopicInputRoute(),
+          CardListRoute.routeName: (context) => const CardListRoute(),
+          CardInputRoute.routeName: (context) => const CardInputRoute(),
         },
       ),
     );

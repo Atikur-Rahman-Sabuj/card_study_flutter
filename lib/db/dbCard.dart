@@ -13,6 +13,7 @@ class DBCard {
 
   static Future<int> insert(StudyCard card) async {
     Database db = await DBUtils.instance.db;
+    card.createdAt = DateTime.now().toString();
     return await db.insert(tableName, card.toJson());
   }
 
