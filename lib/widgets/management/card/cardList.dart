@@ -40,7 +40,7 @@ class _CardListWidgetState extends State<CardListWidget> {
       appBar: AppBar(
         title: const Text('Cards'),
       ),
-      floatingActionButton: FloatingActionButton.small(
+      floatingActionButton: FloatingActionButton.large(
         onPressed: () async {
           final result =
               await Navigator.pushNamed(context, CardInputRoute.routeName,
@@ -80,24 +80,27 @@ class _CardListWidgetState extends State<CardListWidget> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          DBCard.delete(card);
+                    ElevatedButton(
+                      onPressed: () {
+                        DBCard.delete(card);
+                        _refreshCards();
+                      },
+                      child: const Icon(Icons.delete),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.pushNamed(
+                            context, CardInputRoute.routeName,
+                            arguments: card);
+                        if (result != null) {
                           _refreshCards();
-                        },
-                        icon: const Icon(Icons.delete),
-                        label: const Text("")),
-                    ElevatedButton.icon(
-                        onPressed: () async {
-                          final result = await Navigator.pushNamed(
-                              context, CardInputRoute.routeName,
-                              arguments: card);
-                          if (result != null) {
-                            _refreshCards();
-                          }
-                        },
-                        icon: const Icon(Icons.edit),
-                        label: const Text("")),
+                        }
+                      },
+                      child: const Icon(Icons.edit),
+                    ),
                   ],
                 ), //topic.favorite ? Icon(Icons.star) : null,
                 leading: CircleAvatar(

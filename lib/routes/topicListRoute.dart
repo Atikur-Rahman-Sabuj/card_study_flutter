@@ -1,8 +1,5 @@
-import 'package:card_study_flutter/widgets/topicList.dart';
-import 'package:card_study_flutter/widgets/topicInput.dart';
+import 'package:card_study_flutter/widgets/management/topic/topicList.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class TopicListRoute extends StatelessWidget {
   const TopicListRoute({super.key});

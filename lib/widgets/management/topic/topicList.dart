@@ -15,11 +15,22 @@ class TopicListWidget extends StatefulWidget {
 
 class _TopicListWidgetState extends State<TopicListWidget> {
   Future<List<Topic>>? _topics;
+  Topic? _parent;
 
   @override
   void initState() {
     super.initState();
+    if (widget.parentId != null) {
+      _setParent();
+    }
     _topics = _getTopics();
+  }
+
+  _setParent() async {
+    final parent = await DBTopic.getById(widget.parentId!);
+    setState(() {
+      _parent = parent;
+    });
   }
 
   Future<List<Topic>> _getTopics() async {
@@ -36,7 +47,8 @@ class _TopicListWidgetState extends State<TopicListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Topics'),
+        title: Text(
+            _parent == null ? 'Main Topics' : '${_parent!.title} Categories'),
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () async {
@@ -85,24 +97,26 @@ class _TopicListWidgetState extends State<TopicListWidget> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ElevatedButton.icon(
+                    ElevatedButton(
                         onPressed: () {
                           DBTopic.delete(topic);
                           _refreshTopics();
                         },
-                        icon: const Icon(Icons.delete),
-                        label: const Text("")),
-                    ElevatedButton.icon(
-                        onPressed: () async {
-                          final result = await Navigator.pushNamed(
-                              context, TopicInputRoute.routeName,
-                              arguments: topic);
-                          if (result != null) {
-                            _refreshTopics();
-                          }
-                        },
-                        icon: const Icon(Icons.edit),
-                        label: const Text("")),
+                        child: const Icon(Icons.delete)),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.pushNamed(
+                            context, TopicInputRoute.routeName,
+                            arguments: topic);
+                        if (result != null) {
+                          _refreshTopics();
+                        }
+                      },
+                      child: const Icon(Icons.edit),
+                    ),
                   ],
                 ), //topic.favorite ? Icon(Icons.star) : null,
                 leading: CircleAvatar(

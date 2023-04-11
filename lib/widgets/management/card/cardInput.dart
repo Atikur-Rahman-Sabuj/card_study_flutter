@@ -1,7 +1,5 @@
 import 'package:card_study_flutter/db/dbCard.dart';
-import 'package:card_study_flutter/db/dbTopic.dart';
 import 'package:card_study_flutter/models/studyCard.dart';
-import 'package:card_study_flutter/models/topic.dart';
 import 'package:flutter/material.dart';
 
 class CardInputWidget extends StatefulWidget {
@@ -48,7 +46,7 @@ class _CardInputWidgetState extends State<CardInputWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Card'),
+        title: Text('${widget.card == null ? 'Add' : 'Update'} Card'),
       ),
       body: Form(
         key: _formKey,
@@ -159,7 +157,7 @@ class _CardInputWidgetState extends State<CardInputWidget> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Save'),
+                child: Text(widget.card == null ? 'Save' : 'Update'),
               ),
             ],
           ),
