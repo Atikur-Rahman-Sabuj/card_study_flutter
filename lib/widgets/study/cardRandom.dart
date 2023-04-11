@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:card_study_flutter/db/dbCard.dart';
 import 'package:card_study_flutter/models/studyCard.dart';
 import 'package:card_study_flutter/utils/utils.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class CardRandom extends StatefulWidget {
   final int topicId;

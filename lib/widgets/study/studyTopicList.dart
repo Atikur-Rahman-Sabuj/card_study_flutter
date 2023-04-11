@@ -2,6 +2,7 @@ import 'package:card_study_flutter/db/dbTopic.dart';
 import 'package:card_study_flutter/models/topic.dart';
 import 'package:card_study_flutter/routes/cardListRoute.dart';
 import 'package:card_study_flutter/routes/studyCardRandomRoute.dart';
+import 'package:card_study_flutter/routes/studyCardsInGridRoute.dart';
 import 'package:card_study_flutter/routes/studyTopicListRoute.dart';
 import 'package:card_study_flutter/routes/topicInputRoute.dart';
 import 'package:card_study_flutter/routes/topicListRoute.dart';
@@ -74,31 +75,33 @@ class _StudyTopicListWidgetState extends State<StudyTopicListWidget> {
               },
               title: Text(topic.title),
               subtitle: Text(topic.description),
-              // trailing: Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     ElevatedButton(
-              //         onPressed: () {
-              //           DBTopic.delete(topic);
-              //           _refreshTopics();
-              //         },
-              //         child: const Icon(Icons.delete)),
-              //     SizedBox(
-              //       width: 5,
-              //     ),
-              //     ElevatedButton(
-              //       onPressed: () async {
-              //         final result = await Navigator.pushNamed(
-              //             context, TopicInputRoute.routeName,
-              //             arguments: topic);
-              //         if (result != null) {
-              //           _refreshTopics();
-              //         }
-              //       },
-              //       child: const Icon(Icons.edit),
-              //     ),
-              //   ],
-              // ), //topic.favorite ? Icon(Icons.star) : null,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (widget.parentId != null)
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, StudyCardsInGridRoute.routeName,
+                              arguments: topic.id);
+                        },
+                        child: const Text("Cards")),
+                  // SizedBox(
+                  //   width: 5,
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     final result = await Navigator.pushNamed(
+                  //         context, TopicInputRoute.routeName,
+                  //         arguments: topic);
+                  //     if (result != null) {
+                  //       _refreshTopics();
+                  //     }
+                  //   },
+                  //   child: const Icon(Icons.edit),
+                  // ),
+                ],
+              ), //topic.favorite ? Icon(Icons.star) : null,
               leading: CircleAvatar(
                 child: Text(topic.priority.toString()),
               ),

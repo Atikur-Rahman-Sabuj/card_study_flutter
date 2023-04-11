@@ -3,6 +3,7 @@ import 'package:card_study_flutter/routes/cardInputRoute.dart';
 import 'package:card_study_flutter/routes/cardListRoute.dart';
 import 'package:card_study_flutter/routes/homeRoute.dart';
 import 'package:card_study_flutter/routes/studyCardRandomRoute.dart';
+import 'package:card_study_flutter/routes/studyCardsInGridRoute.dart';
 import 'package:card_study_flutter/routes/studyTopicListRoute.dart';
 import 'package:card_study_flutter/routes/topicListRoute.dart';
 import 'package:card_study_flutter/routes/topicInputRoute.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
               const StudyTopicListRoute(),
           StudyCardRandomRoute.routeName: (context) =>
               const StudyCardRandomRoute(),
+          StudyCardsInGridRoute.routeName: (context) =>
+              const StudyCardsInGridRoute(),
           TopicListRoute.routeName: (context) => const TopicListRoute(),
           TopicInputRoute.routeName: (context) => const TopicInputRoute(),
           CardListRoute.routeName: (context) => const CardListRoute(),
