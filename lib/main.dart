@@ -1,6 +1,9 @@
 import 'package:card_study_flutter/db/dbUtils.dart';
 import 'package:card_study_flutter/routes/cardInputRoute.dart';
 import 'package:card_study_flutter/routes/cardListRoute.dart';
+import 'package:card_study_flutter/routes/homeRoute.dart';
+import 'package:card_study_flutter/routes/studyCardRandomRoute.dart';
+import 'package:card_study_flutter/routes/studyTopicListRoute.dart';
 import 'package:card_study_flutter/routes/topicListRoute.dart';
 import 'package:card_study_flutter/routes/topicInputRoute.dart';
 import 'package:english_words/english_words.dart';
@@ -28,8 +31,13 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        home: const TopicListRoute(),
+        home: const HomeRoute(),
         routes: <String, WidgetBuilder>{
+          HomeRoute.routeName: (context) => const HomeRoute(),
+          StudyTopicListRoute.routeName: (context) =>
+              const StudyTopicListRoute(),
+          StudyCardRandomRoute.routeName: (context) =>
+              const StudyCardRandomRoute(),
           TopicListRoute.routeName: (context) => const TopicListRoute(),
           TopicInputRoute.routeName: (context) => const TopicInputRoute(),
           CardListRoute.routeName: (context) => const CardListRoute(),
