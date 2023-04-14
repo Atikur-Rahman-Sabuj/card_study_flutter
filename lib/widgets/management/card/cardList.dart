@@ -63,7 +63,7 @@ class _CardListWidgetState extends State<CardListWidget> {
         future: _cards,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -75,8 +75,8 @@ class _CardListWidgetState extends State<CardListWidget> {
             itemBuilder: (context, index) {
               final card = cards[index];
               return ListTile(
-                title: Text(card.frontTitle),
-                subtitle: Text(card.frontDescription),
+                title: Text(card.backTitle),
+                subtitle: Text(card.frontTitle),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -87,7 +87,7 @@ class _CardListWidgetState extends State<CardListWidget> {
                       },
                       child: const Icon(Icons.delete),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     ElevatedButton(

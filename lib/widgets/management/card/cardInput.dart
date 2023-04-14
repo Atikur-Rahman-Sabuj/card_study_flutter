@@ -46,7 +46,7 @@ class _CardInputWidgetState extends State<CardInputWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.card == null ? 'Add' : 'Update'} Card'),
+        title: Text('${widget.card?.id == null ? 'Add' : 'Update'} Card'),
       ),
       body: Form(
         key: _formKey,
@@ -157,7 +157,7 @@ class _CardInputWidgetState extends State<CardInputWidget> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text(widget.card == null ? 'Save' : 'Update'),
+                child: Text(widget.card?.id == null ? 'Save' : 'Update'),
               ),
             ],
           ),

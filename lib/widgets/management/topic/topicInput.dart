@@ -44,7 +44,8 @@ class _TopicInputWidgetState extends State<TopicInputWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.topic == null ? 'Add' : 'Update'} Topic'),
+        title: Text(
+            '${widget.topic?.id == null ? 'Add' : 'Update'} ${widget.topic?.parentId == null ? "Topic" : "Category"}'),
       ),
       body: Form(
         key: _formKey,
@@ -127,7 +128,7 @@ class _TopicInputWidgetState extends State<TopicInputWidget> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text(widget.topic == null ? 'Save' : 'Update'),
+                child: Text(widget.topic?.id == null ? 'Save' : 'Update'),
               ),
             ],
           ),
