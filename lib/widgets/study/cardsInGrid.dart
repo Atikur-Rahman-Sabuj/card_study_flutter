@@ -84,6 +84,7 @@ class StyledCard extends StatelessWidget {
         children: [
           Text(
             title,
+            textAlign: TextAlign.center,
             style: titleStyle,
           ),
           const SizedBox(
@@ -91,6 +92,7 @@ class StyledCard extends StatelessWidget {
           ),
           Text(
             description,
+            textAlign: TextAlign.center,
             style: subtitleStyle,
           )
         ],
